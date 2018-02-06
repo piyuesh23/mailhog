@@ -11,8 +11,8 @@
 
 - name: Mailhog| Install Mailhog
   get_url:
-    url: {{ mailhog_release_url }}
-    dest: {{ mailhog_install_path }}
+    url: '{{ mailhog_release_url }}'
+    dest: '{{ mailhog_install_path }}'
     owner: root
     group: root
     mode: 0755
