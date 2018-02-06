@@ -18,10 +18,10 @@ script:
   - docker exec --tty $container_id sudo apt-get install -y --no-install-recommends ansible
 
   # Check playbook yml syntax.
-  - docker exec --tty $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/ubuntu1404_test.yml --syntax-check
+  - docker exec --tty $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check
 
   # Run Ansible playbook.
-  - docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/ubuntu1404_test.yml
+  - docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
