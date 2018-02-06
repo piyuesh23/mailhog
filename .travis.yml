@@ -1,0 +1,27 @@
+---
+services: docker
+
+script:
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+
+  # Run tests.
+  - docker pull ubuntu:14.04
+  - docker run --detach --volume="$PWD":/etc/ansible/roles/role_under_test:rw --name $container_id --privileged ubuntu:14.04 /sbin/init
+
+  # Install ansible.
+  - docker exec --tty $container_id sudo apt-get update -y
+  - docker exec --tty $container_id sudo apt-get install software-properties-common python-software-properties -y
+  - docker exec --tty $container_id sudo apt-add-repository -y ppa:ansible/ansible
+  - docker exec --tty $container_id sudo apt-get update -y
+  - docker exec --tty $container_id sudo apt-get install -y --no-install-recommends ansible
+
+  # Check playbook yml syntax.
+  - docker exec --tty $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/ubuntu1404_test.yml --syntax-check
+
+  # Run Ansible playbook.
+  - docker exec $container_id ansible-playbook /etc/ansible/roles/role_under_test/tests/ubuntu1404_test.yml
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
