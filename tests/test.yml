@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - piyuesh23.mailhog
+    - role_under_test
